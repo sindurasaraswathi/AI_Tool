@@ -1,0 +1,74 @@
+{%extends 'base.html'%}
+{%block content%}
+<head>
+<script>
+function torange(length)
+{ 
+var from=document.getElementById("from_range");
+var to=document.getElementBYName("to_range");
+to.min=from.value;
+}
+</script>
+</head>
+<div class="col-sm-10">
+<br>
+<form id="myform" action="{{url_for('file_view_range')}}" method="POST">
+<br>
+<div class="row">
+<div class="col-sm-3">
+<label for="range"><h5>Select Range of rows (1-{{length}}) :</h5></label>
+</div>
+<div class="col-sm-2">
+<input type="number" min="1" max="{{length}}" id="from_range" name="from_range" oninput="torange({{length}})" class="form-control" placeholder="From" required>
+</div>
+<div class="col-sm-2">
+<input type="number" max="{{length}}" id="to_range" name="to_range" oninput="torange({{length}})" class="form-control" placeholder="To" required>
+<br>
+</div>
+<div class="col-sm-2">
+<button type="submit" class="btn btn-primary">Submit</button><br>
+</div>
+</div>
+</form>
+<br>
+<center><h3>Content of the file</h3></center><br>
+
+<div>
+<table id="Mapped table" border="1" class="table table-striped">
+<form action="{{url_for('profiling')}}" target="_blank" method="post">
+<button type="submit" class="btn btn-primary" style="float: left;">Profile</button>
+<tr>
+{% for col in column_names %}
+<th>{{col}}<br><input type="checkbox" name="col_profile" id="col_profile" value="{{col}}"></input></th>
+{%endfor%}
+</tr>
+</form>
+<form action="{{url_for('datatype_change')}}" method="post">
+<button type="submit" class="btn btn-primary" style="float: right;">Next</button>
+<tr>
+{% for d in datatype %}
+<td><select class="dropbtn" id="datatype" name="datatype">
+<option value={{d}}>{{d}}</option>
+<option value=int64>int64</option>
+<option value=float64>float64</option>
+<option value=int32>int32</option>
+<option value=float32>float32</option>
+<option value=datetime64[ns]>datetime</option>
+<option value=object>Object</option>
+</select></td>
+{% endfor %}
+</tr>
+{% for row in rows %}
+<tr>
+{% for r in row %}
+<td>
+{{r}}
+</td>
+{% endfor %}
+</tr>
+{%endfor%}
+</table>
+</div>
+{%endblock%}
+
+

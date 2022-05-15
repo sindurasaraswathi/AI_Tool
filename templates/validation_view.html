@@ -1,0 +1,57 @@
+{%extends 'base.html'%}
+{%block content%}
+<head>
+<script>
+function torange(length)
+{ 
+var from=document.getElementById("from_range");
+var to=document.getElementBYName("to_range");
+to.min=from.value;
+}
+</script>
+</head>
+<div class="col-sm-10">
+<br>
+<a href="/download"><button type="btn btn-success" style="float: right;">Download result</button></a>
+<br>
+<form id="myform" action="{{url_for('validation_view_range')}}" method="POST">
+<br>
+<div class="row">
+<div class="col-sm-3">
+<label for="range"><h5>Select Range of rows (1-{{length}}) :</h5></label>
+</div>
+<div class="col-sm-2">
+<input type="number" min="1" max="{{length}}" id="from_range" name="from_range" oninput="torange({{length}})" class="form-control" placeholder="From" required>
+</div>
+<div class="col-sm-2">
+<input type="number" max="{{length}}" id="to_range" name="to_range" oninput="torange({{length}})" class="form-control" placeholder="To" required>
+<br>
+</div>
+<div class="col-sm-2">
+<button type="submit" class="btn btn-primary">Submit</button><br>
+</div>
+</div>
+</form>
+<br>
+<center><h3>Validation with clusters</h3></center><br>
+
+<div>
+<table id="Mapped table" border="1" class="table table-striped">
+<tr>
+{% for col in column_names %}
+<th>{{col}}</th>
+{%endfor%}
+</tr>
+{% for row in rows %}
+<tr>
+{% for r in row %}
+<td>
+{{r}}
+</td>
+{% endfor %}
+</tr>
+{%endfor%}
+</table>
+</div>
+{%endblock%}
+

@@ -1,0 +1,187 @@
+{%extends 'base.html'%}
+{%block content%}
+<head>
+<script>
+function checkbox_checked()
+{
+     var x=document.getElementsByName("algo");
+     var y=document.getElementById("algo_submit");
+     var i;
+     var c=false;
+     for(i=0;i<x.length;i++)
+     {
+          if(x[i].checked)
+          {
+              c=true;
+              break;
+          }
+     }
+     if(c)
+     {y.disabled=false;}
+     else
+     {y.disabled=true;}
+}
+</script>
+</head>
+
+
+<div class="col-sm-10">
+<br>
+<button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary" style="float: right;">Snapshot</button>
+<!--Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+<div class="modal-dialog">
+
+<!-- Modal content-->
+<form id="formid1" action="{{url_for('snapshot_save')}}" method="POST">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+<h4 class="modal-title">Save preprocessed dataset as </h4>
+</div>
+<div class="modal-body">
+<input type="text" name="file_name" id="file_name" placeholder="Enter the file name" required></input>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondaary" data-dismiss="modal">Cancel</button>
+<button type="submit" class="bt btn-primary">Save</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<br>
+<!--Modal-->
+<div id="myModal1" class="modal fade" role="dialog">
+<div class="modal-dialog">
+
+<!-- Modal content-->
+<form id="formid2" action="{{url_for('elbow_method_kmeans')}}" target="_blank" method="POST">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+<h4 class="modal-title">Enter Range of clusters for elbow curve</h4>
+</div>
+<div class="modal-body">
+<p>Select Dataset for clustering: <select class="dropbtn" id="data" name="data">
+<option value="preprocess_df">Preprocessed Dataset</option>
+<option value="scaled_df">Scaled Dataset</option>
+</select>
+</p>
+<br>
+
+<p>From Cluster :
+<input type="number" min="2" name="fromcluster" id="fromcluster"  value="2"></input>
+</p>
+<p>To Cluster :
+<input type="number" min="3" name="tocluster" id="tocluster"  value="3"></input>
+</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondaary" data-dismiss="modal">Cancel</button>
+<button type="submit" class="bt btn-primary">Ok</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+
+<!--Modal-->
+<div id="myModal2" class="modal fade" role="dialog">
+<div class="modal-dialog">
+
+<!-- Modal content-->
+<form id="formid3" action="{{url_for('k_distance_graph')}}" target="_blank" method="POST">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+<h4 class="modal-title">K distance graph to optimal epsilon</h4>
+</div>
+<div class="modal-body">
+<p>Select Dataset for K-distance graph: <select class="dropbtn" id="kdata" name="kdata">
+<option value="scaled_df">Scaled Dataset</option>
+<option value="pca_df">PCA Dataset</option>
+</select>
+</p>
+<br>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondaary" data-dismiss="modal">Cancel</button>
+<button type="submit" class="bt btn-primary">Ok</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<br>
+<br>
+<div>
+<b><center><h3>Choose Clustering Alogorithm</h3></center></b><br>
+<form id="formid" action="{{url_for('modelling')}}" method="POST">
+<table id="Mapped table" border="1" class="table table-striped">
+<tr>
+<td>
+<input type="checkbox" value="kmeans" name="algo" onclick="checkbox_checked()"> KMeans Clustering</input>
+</td>
+<td>
+<input type="checkbox" value="dbscan" name="algo" onclick="checkbox_checked()"> DBSCAN </input>
+</td>
+<td>
+<input type="checkbox" value="agglomerative" name="algo" onclick="checkbox_checked()"> Agglomerative Clustering</input>
+</td>
+</tr>
+<tr>
+<td>
+<p>Enter number of clusters: <input type="number" value="2" name="cluster"></input></p>
+</td>
+<td>
+<p>Enter min-samples :
+    <input type="number" value="50" name="min-samples"></input></p>
+    <p>Enter epsilon :
+        <input type="number" value="1" name="epsilon"></input></p>
+    </td>
+    <td>
+    <p>Enter number of clusters: <input type="number" value="2" name="agc-cluster"></input></p>
+    </td>
+    </tr>
+    <tr>
+    <td>
+    <p>Select Dataset for clustering: <select class="dropbtn" id="dataset_kmeans" name="dataset_kmeans">
+    <option value="preprocess_df">Preprocessed Dataset</option>
+    <option value="scaled_df">Scaled Dataset</option>
+    <option value="pca_df">PCA Dataset</option>
+    </select>
+    </p>
+    </td>
+    <td>
+    <p>Select Dataset for clustering: <select class="dropbtn" id="dataset_dbscan" name="dataset_dbscan">
+    <option value="scaled_df">Scaled Dataset</option>
+    <option value="pca_df">PCA Dataset</option>
+    </select>
+    </p>
+    </td>
+    <td>
+    <p>Dataset for clustering: <select class="dropbtn" id="dataset_agc" name="dataset_agc">
+    <option value="preprocess_df">Preprocessed Dataset</option>
+    <option value="scaled_df">Scaled Dataset</option>
+    <option value="pca_df">PCA Dataset</option>
+    </select>
+    </p>
+    </td>
+    </tr>
+    <tr>
+    <td>
+    <button type="button" data-toggle="modal" data-target="#myModal1" class="btn btn-dark" style="float: left;">View Elbow Curve</button>
+    </td>
+    <td>
+    <button type="button" data-toggle="modal" data-target="#myModal2" class="btn btn-dark" style="float: left;">View K-distance graph</button>
+    </td>
+    <td><p></p>
+    </td>
+    </tr>
+    </table>
+    </div>
+    <center><button type="submit" id="algo_submit" class="btn btn-primary" title="Please select an algorithm" disabled=disabled>Submit</button></center>
+    </form>
+    </div>
+    {%endblock%}

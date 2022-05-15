@@ -1,0 +1,26 @@
+{%extends 'base.html'%}
+{%block content%}
+<div class="col-sm-10">
+<br><br>
+<table class="table table-bordered">
+<thead>
+<tr>
+<b><center> List of files</center></b>
+</tr>
+<thead>
+<tbody>
+<tr>
+{%for file in database%}
+<tr><ol>
+<td>{{file}}</td>
+<td><form id="formid" action="{{file}}/view">
+<button type="submit" class="btn btn-primary">View</button>
+</form>
+</td>
+</ol></tr>
+{%endfor%}
+</tr>
+</tbody>
+</table>
+</div>
+{%endblock%}

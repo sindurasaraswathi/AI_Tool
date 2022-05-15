@@ -1,0 +1,74 @@
+{%extends 'base.html'%}
+{%block content%}
+<script>
+function f1()
+{ 
+var T=document.getElementById("splitter");
+var a=document.getElementBYName("prep");
+for(i=0;i<a.length;i++)
+{
+ if(a[i].value=="Splitting")
+ {
+  T.style.display="block";
+  }
+ }
+}
+</script>
+<br>
+<div class="col-sm-10">
+<div>
+<form action="{{url_for('preprocess')}}" method="post">
+<button type="submit" class="btn btn-primary" style="float: right;">Next</button>
+<br>
+<center><h3>Preprocess</h3></center><br>
+<table id="Mapped table" border="1" class="table table-striped">
+<tr>
+{% for col in column_names %}
+<th>{{col}}</th>
+{%endfor%}
+</tr>
+<tr>
+{% for col in column_names%}
+<td>
+<select class="dropbtn" id={{col}} name="prep" onChange="f1()">
+<option value="__selct__">--select--</option>
+<option value="Encoding">Label Encoding</option>
+<option value="Split-encode-1">Split & Encode-first part</option>
+<option value="Split-encode-2">Split & Encode-second part</option>
+<option value="split-date">Split date(yyyy,mm,dd)</option>
+<option value="Splitting">Splitting</option>
+<option value="Regex">Regex</option>
+<option value="Drop_column">Drop_column</option>
+<option value="Restore">Restore</option>
+</select>
+</td>
+{% endfor %}
+</tr>
+<tr>
+<div id="splitter" style="display:none">
+{% for col in column_names %}
+<td>
+<input type="number" value="" name="split" placeholder="Enter Split Number"></input>
+</td>
+{%endfor%}
+</div>
+</tr>
+</form>
+<tr>
+{% for dtype in datatype %}
+<td>{{dtype}}</td>
+{%endfor%}
+</tr>
+{% for row in rows %}
+<tr>
+{% for r in row %}
+<td>
+{{r}}
+</td>
+{% endfor %}
+</tr>
+{%endfor%}
+</table>
+</div>
+{%endblock%}
+

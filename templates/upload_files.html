@@ -1,0 +1,17 @@
+{%extends 'base.html'%}
+{%block content%}
+<br>
+<div class="col-sm-10">
+<div class="jumbotron">
+<form action="{{url_for('upload_success')}}" method="POST" enctype="multipart/form-data">
+<div class="form-group">
+<br>
+<label for="file"><b>Select files</b></label><br>
+<input type="file" id="file" name="file" value="upload file" multiple="" required>
+<br>
+<center><button type="submit" class="btn btn-primary">Submit</button></center>
+</div>
+</form>
+</div>
+</div>
+{%endblock%}
