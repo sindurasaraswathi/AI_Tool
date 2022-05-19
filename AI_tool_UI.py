@@ -130,7 +130,7 @@ def file_view_range():
 def profiling():
     """pandas profiling for data"""
     if request.method == "POST":
-        output_html_path = r'E:/Python Programs/AI-tool/templates/'
+        output_html_path = r'C:/Users/sindu/Work/MS_folder/Spring_2022/AI_Tool/templates/'
         if 'output.html' in os.listdir(output_html_path):
             os.remove(output_html_path + 'output.html')
         global f
